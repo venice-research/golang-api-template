@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"math/rand"
 	"net/http"
 	"os"
 	"strings"
@@ -20,6 +21,8 @@ func logRequest(r *http.Request) {
 
 func generateStartupMessage(time time.Time) string {
 	startupMessage := "GoLang API Template started at: " + time.Format("01-02-2006")
+
+	fmt.Println(rand.Int())
 
 	return startupMessage
 }
