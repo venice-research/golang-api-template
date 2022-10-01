@@ -2,12 +2,12 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"net/http"
 	"os"
 	"strings"
-
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
+	"time"
 )
 
 var cfgFile string
@@ -18,7 +18,11 @@ func logRequest(r *http.Request) {
 	fmt.Println("Got request!", method, uri)
 }
 
-const startupMessage = "Welcome to the GoLang API Template"
+func generateStartupMessage(time time.Time) string {
+	startupMessage := "GoLang API Template started at: " + time.Format("01-02-2006")
+
+	return startupMessage
+}
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -38,7 +42,7 @@ var rootCmd = &cobra.Command{
 		}
 
 		bindAddr := fmt.Sprintf(":%s", port)
-		lines := strings.Split(startupMessage, "\n")
+		lines := strings.Split(generateStartupMessage(time.Now()), "\n")
 		fmt.Println()
 		for _, line := range lines {
 			fmt.Println(line)
