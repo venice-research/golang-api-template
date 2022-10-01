@@ -13,10 +13,15 @@ import (
 
 var cfgFile string
 
-func logRequest(r *http.Request) {
-	uri := r.RequestURI
+func logRequest(r *http.Request) string {
+	url := r.URL
 	method := r.Method
-	fmt.Println("Got request!", method, uri)
+
+	message := fmt.Sprintf("%s %s", method, url)
+
+	fmt.Printf("Got request! %s\n", message)
+
+	return message
 }
 
 func generateStartupMessage(currentTime time.Time) string {

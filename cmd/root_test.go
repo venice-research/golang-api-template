@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"net/http"
 	"testing"
 	"time"
 )
@@ -13,5 +14,19 @@ func TestStartupMessage(t *testing.T) {
 
 	if want != got {
 		t.Fatalf(`generateStartupMessage(currentTime) = %q, want match for %#q, nil`, got, want)
+	}
+}
+
+func TestLogRequest(t *testing.T) {
+	req, err := http.NewRequest("GET", "/", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := "GET /"
+	got := logRequest(req)
+
+	if want != got {
+		t.Fatalf(`logRequest(request) = %q, want match for %#q, nil`, got, want)
 	}
 }
