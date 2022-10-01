@@ -1,6 +1,16 @@
 name: golang-api-template
+region: sfo
 services:
-  - name: web
+  - environment_slug: go
     github:
-      repo: venice-research/golang-api-template
       branch: main
+      deploy_on_push: true
+      repo: venice-research/golang-api-template
+    http_port: 8080
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    name: golang-api-template
+    routes:
+      - path: /
+    run_command: bin/sample-golang
+    source_dir: /
