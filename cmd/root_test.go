@@ -18,7 +18,7 @@ func TestStartupMessage(t *testing.T) {
 }
 
 func TestLogRequest(t *testing.T) {
-	req, err := http.NewRequest("GET", "/", nil)
+	req, err := http.NewRequest("GET", "/", http.NoBody)
 	if err != nil {
 		t.Fatal(err)
 	}
