@@ -2,13 +2,13 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
-	"math/rand"
 	"net/http"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var cfgFile string
@@ -19,10 +19,8 @@ func logRequest(r *http.Request) {
 	fmt.Println("Got request!", method, uri)
 }
 
-func generateStartupMessage(time time.Time) string {
-	startupMessage := "GoLang API Template started at: " + time.Format("01-02-2006")
-
-	fmt.Println(rand.Int())
+func generateStartupMessage(currentTime time.Time) string {
+	startupMessage := "GoLang API Template started at: " + currentTime.Format("01-02-2006")
 
 	return startupMessage
 }
