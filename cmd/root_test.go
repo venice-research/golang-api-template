@@ -10,6 +10,7 @@ func TestStartupMessage(t *testing.T) {
 
 	want := "GoLang API Template started at: " + currentTime.Format("01-02-2006")
 	got := generateStartupMessage(currentTime)
+
 	if want != got {
 		t.Fatalf(`generateStartupMessage(currentTime) = %q, want match for %#q, nil`, got, want)
 	}

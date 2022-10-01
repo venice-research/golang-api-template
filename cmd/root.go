@@ -51,7 +51,12 @@ var rootCmd = &cobra.Command{
 		fmt.Println()
 		fmt.Printf("==> Server listening at %s 🚀\n", bindAddr)
 
-		err := http.ListenAndServe(fmt.Sprintf(":%s", port), nil)
+		server := &http.Server{
+			Addr:              fmt.Sprintf(":%s", port),
+			ReadHeaderTimeout: 3 * time.Second,
+		}
+
+		err := server.ListenAndServe()
 		if err != nil {
 			panic(err)
 		}
