@@ -1,0 +1,7 @@
+spec:
+  name: golang-api-template
+  services:
+    - name: web
+      git:
+        branch: main
+        repo_clone_url: https://github.com/venice-research/golang-api-template.git

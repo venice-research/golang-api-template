@@ -1,0 +1,6 @@
+name: golang-api-template
+services:
+  - name: web
+    github:
+      repo: venice-research/golang-api-template
+      branch: main
