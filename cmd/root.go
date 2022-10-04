@@ -39,7 +39,12 @@ var rootCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 			logRequest(r)
-			fmt.Fprintf(w, "Hello! you've requested %s\n", r.URL.Path)
+
+			_, err := fmt.Fprintf(w, "Hello! you've requested %s\n", r.URL.Path)
+
+			if err != nil {
+				fmt.Printf("Error writing response to writer. %s\n", err)
+			}
 		})
 
 		port := os.Getenv("PORT")
@@ -111,6 +116,9 @@ func initConfig() {
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
+		_, err := fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
+		if err != nil {
+			panic(err)
+		}
 	}
 }
