@@ -7,6 +7,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/honeycombio/beeline-go"
+	"github.com/honeycombio/beeline-go/wrappers/hnynethttp"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -37,7 +39,8 @@ var rootCmd = &cobra.Command{
 	Long: `An application template for Go that allows a developer to 
 	quickly deploy applications to the DigitalOcean Apps platform.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		mux := http.NewServeMux()
+		mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 			logRequest(r)
 
 			_, err := fmt.Fprintf(w, "Hello! you've requested %s\n", r.URL.Path)
@@ -61,14 +64,37 @@ var rootCmd = &cobra.Command{
 		fmt.Println()
 		fmt.Printf("==> Server listening at %s 🚀\n", bindAddr)
 
-		server := &http.Server{
-			Addr:              fmt.Sprintf(":%s", port),
-			ReadHeaderTimeout: 3 * time.Second,
-		}
+		if len(args) > 0 {
+			fmt.Println("Configuring Honeycomb")
+			honeycombKey := args[0]
 
-		err := server.ListenAndServe()
-		if err != nil {
-			panic(err)
+			beeline.Init(beeline.Config{
+				// Get this via https://ui.honeycomb.io/account after signing up for Honeycomb
+				WriteKey: honeycombKey,
+				// The name of your app/service is a good choice
+				ServiceName: "GoLang API Template",
+			})
+			defer beeline.Close()
+
+			server := &http.Server{
+				Addr:              fmt.Sprintf(":%s", port),
+				ReadHeaderTimeout: 3 * time.Second,
+				Handler:           hnynethttp.WrapHandler(mux),
+			}
+			err := server.ListenAndServe()
+			if err != nil {
+				panic(err)
+			}
+		} else {
+			fmt.Println("Configuring without Honeycomb")
+			server := &http.Server{
+				Addr:              fmt.Sprintf(":%s", port),
+				ReadHeaderTimeout: 3 * time.Second,
+			}
+			err := server.ListenAndServe()
+			if err != nil {
+				panic(err)
+			}
 		}
 	},
 }
