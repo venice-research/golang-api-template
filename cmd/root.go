@@ -90,6 +90,7 @@ var rootCmd = &cobra.Command{
 			server := &http.Server{
 				Addr:              fmt.Sprintf(":%s", port),
 				ReadHeaderTimeout: 3 * time.Second,
+				Handler:           mux,
 			}
 			err := server.ListenAndServe()
 			if err != nil {
