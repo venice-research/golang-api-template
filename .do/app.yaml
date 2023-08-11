@@ -12,5 +12,4 @@ services:
     name: golang-api-template
     routes:
       - path: /
-    run_command: bin/sample-golang
     source_dir: /

@@ -1,8 +1,9 @@
 module github.com/venice-research/golang-api-template
 
-go 1.18
+go 1.21
 
 require (
+	github.com/honeycombio/beeline-go v1.10.0
 	github.com/spf13/cobra v1.5.0
 	github.com/spf13/viper v1.13.0
 )
@@ -14,7 +15,6 @@ require (
 	github.com/felixge/httpsnoop v1.0.3 // indirect
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/honeycombio/beeline-go v1.10.0 // indirect
 	github.com/honeycombio/libhoney-go v1.16.0 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/klauspost/compress v1.15.7 // indirect
